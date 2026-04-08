@@ -1,0 +1,291 @@
+// Version: 3.0.0
+type BookingInquiry__450314208 =
+  {
+    checkIn : Text;
+    checkOut : Text;
+    email : Text;
+    guests : Nat;
+    id : Text;
+    language : Language__38428764;
+    message : Text;
+    name : Text;
+    phone : ?Text;
+    roomType : Text;
+    timestamp : Int
+  };
+type BookingInquiry__937469222 =
+  {
+    checkIn : Text;
+    checkOut : Text;
+    email : Text;
+    guests : Nat;
+    id : Text;
+    language : Language__341588153;
+    message : Text;
+    name : Text;
+    phone : ?Text;
+    roomType : Text;
+    timestamp : Int
+  };
+type CalendarDay__54689234 =
+  {date : Text; isAvailable : Bool; isInRange : Bool; isSelected : Bool};
+type CalendarDay__991520654 =
+  {date : Text; isAvailable : Bool; isInRange : Bool; isSelected : Bool};
+type CalendarMonth__346004844 =
+  {days : [CalendarDay__991520654]; month : Int; year : Int};
+type CalendarMonth__951303600 =
+  {days : [CalendarDay__54689234]; month : Int; year : Int};
+type CalendarState__1067949945 =
+  {
+    currentMonth : CalendarMonth__346004844;
+    selectedRange : DateRange__515970870
+  };
+type CalendarState__823655213 =
+  {
+    currentMonth : CalendarMonth__951303600;
+    selectedRange : DateRange__96849419
+  };
+type ContactMessage__139940291 =
+  {
+    email : Text;
+    id : Text;
+    language : Language__38428764;
+    message : Text;
+    name : Text;
+    subject : Text;
+    timestamp : Int
+  };
+type ContactMessage__948336175 =
+  {
+    email : Text;
+    id : Text;
+    language : Language__341588153;
+    message : Text;
+    name : Text;
+    subject : Text;
+    timestamp : Int
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type DateRange__515970870 = {endDate : ?Text; startDate : ?Text};
+type DateRange__96849419 = {endDate : ?Text; startDate : ?Text};
+type Domicile__35386474 =
+  {
+    description : Text;
+    id : Text;
+    name : Text;
+    rating : Float;
+    reviewCount : Nat;
+    thumbnail : ?Text
+  };
+type Domicile__649383743 =
+  {
+    description : Text;
+    id : Text;
+    name : Text;
+    rating : Float;
+    reviewCount : Nat;
+    thumbnail : ?Text
+  };
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Language__341588153 = {#de; #en};
+type Language__38428764 = {#de; #en};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__334413012<K, V> = {root : Tree__4145630<K, V>; size : Nat};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OldAccessControlState__633397628 =
+  {
+    var adminAssigned : Bool;
+    var userRoles : Map__334413012<Principal, UserRole__403611420>
+  };
+type PageContent__447290033 =
+  {
+    body : Text;
+    language : Language__341588153;
+    lastUpdated : Int;
+    title : Text
+  };
+type PageContent__848037634 =
+  {
+    body : Text;
+    language : Language__38428764;
+    lastUpdated : Int;
+    title : Text
+  };
+type Property__1067406498 =
+  {
+    amenities : [Text];
+    capacity : Nat;
+    description : Text;
+    id : Text;
+    images : [Text];
+    language : Language__38428764;
+    lastUpdated : Int;
+    location : Text;
+    minStay : Nat;
+    name : Text;
+    subtitle : Text
+  };
+type Property__531338492 =
+  {
+    amenities : [Text];
+    capacity : Nat;
+    description : Text;
+    id : Text;
+    images : [Text];
+    language : Language__341588153;
+    lastUpdated : Int;
+    location : Text;
+    minStay : Nat;
+    name : Text;
+    subtitle : Text
+  };
+type ResidenceCalendar__394237201 =
+  {calendarState : CalendarState__1067949945; residenceId : Text};
+type ResidenceCalendar__646008090 =
+  {calendarState : CalendarState__823655213; residenceId : Text};
+type Residence__352736522 =
+  {
+    description : Text;
+    id : Text;
+    name : Text;
+    reviewTokens : [ReviewToken__497860234];
+    reviews : [Review__422344017]
+  };
+type Residence__899514034 =
+  {
+    description : Text;
+    id : Text;
+    name : Text;
+    reviewTokens : [ReviewToken__452117915];
+    reviews : [Review__526271640]
+  };
+type ReviewToken__452117915 =
+  {
+    email : Text;
+    expiresAt : Int;
+    id : Text;
+    isValid : Bool;
+    issuedAt : Int;
+    residenceId : Text
+  };
+type ReviewToken__497860234 =
+  {
+    email : Text;
+    expiresAt : Int;
+    id : Text;
+    isValid : Bool;
+    issuedAt : Int;
+    residenceId : Text
+  };
+type Review__422344017 =
+  {
+    author : Text;
+    content : Text;
+    id : Text;
+    language : Language__38428764;
+    rating : Nat;
+    residenceId : Text;
+    timestamp : Int
+  };
+type Review__526271640 =
+  {
+    author : Text;
+    content : Text;
+    id : Text;
+    language : Language__341588153;
+    rating : Nat;
+    residenceId : Text;
+    timestamp : Int
+  };
+type StorageState__865391286 =
+  {var authorizedPrincipals : [Principal]; var blobTodeletete : [Blob]};
+type Tree__4145630<K, V> =
+  {
+    #black : (Tree__4145630<K, V>, K, V, Tree__4145630<K, V>);
+    #leaf;
+    #red : (Tree__4145630<K, V>, K, V, Tree__4145630<K, V>)
+  };
+type UserProfile__315128327 = {name : Text};
+type UserProfile__491224006 = {name : Text};
+type UserRole__403611420 = {#admin; #guest; #user};
+type UserRole__599675725 = {#admin; #guest; #user};
+actor ({
+  in accessControlState : OldAccessControlState__633397628;
+  in var bookingInquiries : Map__334413012<Text, BookingInquiry__937469222>;
+  in var contactMessages : Map__334413012<Text, ContactMessage__948336175>;
+  in var domiciles : Map__334413012<Text, Domicile__649383743>;
+  in var pageContents : Map__334413012<Text, PageContent__447290033>;
+  in var properties : Map__334413012<Text, Property__531338492>;
+  in var residenceCalendars :
+    Map__334413012<Text, ResidenceCalendar__394237201>;
+  in var residences : Map__334413012<Text, Residence__899514034>;
+  in var reviewTokens : Map__334413012<Text, ReviewToken__452117915>;
+  in var reviews : Map__334413012<Text, Review__526271640>;
+  in storage : StorageState__865391286;
+  in var userProfiles : Map__334413012<Principal, UserProfile__315128327>
+}, {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__599675725>
+    };
+  stable bookingInquiries :
+    {
+      var root : Node__46230540<Text, BookingInquiry__450314208>;
+      var size : Nat__490723111
+    };
+  stable contactMessages :
+    {
+      var root : Node__46230540<Text, ContactMessage__139940291>;
+      var size : Nat__490723111
+    };
+  stable domiciles :
+    {
+      var root : Node__46230540<Text, Domicile__35386474>;
+      var size : Nat__490723111
+    };
+  stable pageContents :
+    {
+      var root : Node__46230540<Text, PageContent__848037634>;
+      var size : Nat__490723111
+    };
+  stable properties :
+    {
+      var root : Node__46230540<Text, Property__1067406498>;
+      var size : Nat__490723111
+    };
+  stable residenceCalendars :
+    {
+      var root : Node__46230540<Text, ResidenceCalendar__646008090>;
+      var size : Nat__490723111
+    };
+  stable residences :
+    {
+      var root : Node__46230540<Text, Residence__352736522>;
+      var size : Nat__490723111
+    };
+  stable reviewTokens :
+    {
+      var root : Node__46230540<Text, ReviewToken__497860234>;
+      var size : Nat__490723111
+    };
+  stable reviews :
+    {
+      var root : Node__46230540<Text, Review__422344017>;
+      var size : Nat__490723111
+    };
+  stable userProfiles :
+    {
+      var root : Node__46230540<Principal, UserProfile__491224006>;
+      var size : Nat__490723111
+    }
+}) ;

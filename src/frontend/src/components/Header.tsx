@@ -1,17 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
-import { Link, useRouterState } from '@tanstack/react-router';
-import { Menu, ChevronDown } from 'lucide-react';
-import { SiInstagram } from 'react-icons/si';
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useLanguage } from '../contexts/LanguageContext';
-import { Language } from '../backend';
-import MobileMenu from './MobileMenu';
+} from "@/components/ui/dropdown-menu";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { ChevronDown, Menu } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { SiInstagram } from "react-icons/si";
+import { Language, useLanguage } from "../contexts/LanguageContext";
+import MobileMenu from "./MobileMenu";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,40 +26,44 @@ export default function Header() {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
+      if (
+        langDropdownRef.current &&
+        !langDropdownRef.current.contains(event.target as Node)
+      ) {
         setIsLangDropdownOpen(false);
       }
     };
 
     if (isLangDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isLangDropdownOpen]);
 
   const properties = [
-    { path: '/domizile/waldhaus-tannenhof', label: t('nav.waldhaus') },
-    { path: '/domizile/forsthaus-hirschgrund', label: t('nav.forsthaus') },
-    { path: '/domizile/fichtenberg', label: t('nav.fichtenberg') },
-    { path: '/domizile/schwarzwaldblick', label: t('nav.schwarzwaldblick') },
+    { path: "/domizile/waldhaus-tannenhof", label: t("nav.waldhaus") },
+    { path: "/domizile/forsthaus-hirschgrund", label: t("nav.forsthaus") },
+    { path: "/domizile/fichtenberg", label: t("nav.fichtenberg") },
+    { path: "/domizile/schwarzwaldblick", label: t("nav.schwarzwaldblick") },
   ];
 
   const navItems = [
-    { path: '/bewertungen', label: t('nav.reviews') },
-    { path: '/verfuegbarkeit', label: t('nav.calendar') },
+    { path: "/bewertungen", label: t("nav.reviews") },
+    { path: "/verfuegbarkeit", label: t("nav.calendar") },
   ];
 
   // Check if we're on a page with hero image (Home or Property pages)
-  const isHeroPage = currentPath === '/' || currentPath.startsWith('/domizile/');
+  const isHeroPage =
+    currentPath === "/" || currentPath.startsWith("/domizile/");
   const shouldUseWhiteText = isHeroPage && !isScrolled;
 
   const handleLanguageSelect = (lang: Language) => {
@@ -69,33 +72,36 @@ export default function Header() {
   };
 
   // Dynamic language button label and dropdown options based on current language
-  const languageButtonLabel = language === Language.de ? 'Sprache' : 'Language';
-  const languageOptions = language === Language.de 
-    ? [
-        { value: Language.de, label: 'Deutsch' },
-        { value: Language.en, label: 'Englisch' }
-      ]
-    : [
-        { value: Language.en, label: 'English' },
-        { value: Language.de, label: 'German' }
-      ];
+  const languageButtonLabel = language === Language.de ? "Sprache" : "Language";
+  const languageOptions =
+    language === Language.de
+      ? [
+          { value: Language.de, label: "Deutsch" },
+          { value: Language.en, label: "Englisch" },
+        ]
+      : [
+          { value: Language.en, label: "English" },
+          { value: Language.de, label: "German" },
+        ];
 
   return (
     <>
-      <header 
+      <header
         className={`fixed top-0 z-50 w-full transition-all duration-300 ease-out ${
           isScrolled
-            ? 'bg-background/98 backdrop-blur-md border-b border-border/40 shadow-soft'
-            : 'bg-transparent border-transparent'
+            ? "bg-background/98 backdrop-blur-md border-b border-border/40 shadow-soft"
+            : "bg-transparent border-transparent"
         }`}
       >
         <div className="container flex h-20 lg:h-24 items-center justify-between">
           <Link to="/" className="flex items-center space-x-2 group">
-            <span className={`text-xl md:text-2xl lg:text-3xl font-serif font-semibold transition-all duration-300 ${
-              shouldUseWhiteText
-                ? 'text-white drop-shadow-lg'
-                : 'text-primary'
-            } group-hover:opacity-80`}>
+            <span
+              className={`text-xl md:text-2xl lg:text-3xl font-serif font-semibold transition-all duration-300 ${
+                shouldUseWhiteText
+                  ? "text-white drop-shadow-lg"
+                  : "text-primary"
+              } group-hover:opacity-80`}
+            >
               Schwarzwald
             </span>
           </Link>
@@ -106,14 +112,16 @@ export default function Header() {
             <Link
               to="/"
               className={`px-3 xl:px-4 py-2 text-sm font-medium transition-all duration-300 hover:opacity-80 rounded-md ${
-                currentPath === '/' 
-                  ? shouldUseWhiteText ? 'text-white' : 'text-primary'
+                currentPath === "/"
+                  ? shouldUseWhiteText
+                    ? "text-white"
+                    : "text-primary"
                   : shouldUseWhiteText
-                  ? 'text-white/90 hover:text-white'
-                  : 'text-muted-foreground hover:text-primary'
+                    ? "text-white/90 hover:text-white"
+                    : "text-muted-foreground hover:text-primary"
               }`}
             >
-              {t('nav.home')}
+              {t("nav.home")}
             </Link>
 
             {/* Domizile Dropdown */}
@@ -122,33 +130,35 @@ export default function Header() {
                 <Button
                   variant="ghost"
                   className={`px-3 xl:px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                    currentPath.startsWith('/domizile')
-                      ? shouldUseWhiteText ? 'text-white bg-white/10' : 'text-primary bg-primary/5'
+                    currentPath.startsWith("/domizile")
+                      ? shouldUseWhiteText
+                        ? "text-white bg-white/10"
+                        : "text-primary bg-primary/5"
                       : shouldUseWhiteText
-                      ? 'text-white/90 hover:text-white hover:bg-white/10'
-                      : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
+                        ? "text-white/90 hover:text-white hover:bg-white/10"
+                        : "text-muted-foreground hover:text-primary hover:bg-primary/5"
                   }`}
                 >
-                  {t('nav.domizile')}
+                  {t("nav.domizile")}
                   <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent 
-                align="start" 
+              <DropdownMenuContent
+                align="start"
                 className={`w-64 shadow-elegant-lg backdrop-blur-md transition-all duration-300 ${
                   shouldUseWhiteText
-                    ? 'bg-black/40 border-white/30'
-                    : 'bg-background/98 border-border/50'
+                    ? "bg-black/40 border-white/30"
+                    : "bg-background/98 border-border/50"
                 }`}
               >
                 {properties.map((property) => (
-                  <DropdownMenuItem 
-                    key={property.path} 
+                  <DropdownMenuItem
+                    key={property.path}
                     asChild
                     className={`transition-all duration-300 ${
                       shouldUseWhiteText
-                        ? 'text-white border-b border-white/20 last:border-b-0 hover:bg-white/10 focus:bg-white/10'
-                        : 'text-foreground border-b border-border/30 last:border-b-0 hover:bg-primary/5 focus:bg-primary/5'
+                        ? "text-white border-b border-white/20 last:border-b-0 hover:bg-white/10 focus:bg-white/10"
+                        : "text-foreground border-b border-border/30 last:border-b-0 hover:bg-primary/5 focus:bg-primary/5"
                     }`}
                   >
                     <Link
@@ -168,10 +178,12 @@ export default function Header() {
                 to={item.path}
                 className={`px-3 xl:px-4 py-2 text-sm font-medium transition-all duration-300 hover:text-primary rounded-md whitespace-nowrap ${
                   currentPath === item.path
-                    ? shouldUseWhiteText ? 'text-white bg-white/10' : 'text-primary bg-primary/5'
+                    ? shouldUseWhiteText
+                      ? "text-white bg-white/10"
+                      : "text-primary bg-primary/5"
                     : shouldUseWhiteText
-                    ? 'text-white/90 hover:text-white'
-                    : 'text-muted-foreground'
+                      ? "text-white/90 hover:text-white"
+                      : "text-muted-foreground"
                 }`}
               >
                 {item.label}
@@ -183,20 +195,23 @@ export default function Header() {
             {/* Dynamic Language Dropdown */}
             <div className="relative" ref={langDropdownRef}>
               <button
+                type="button"
                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
                 className={`px-3 py-2 text-sm font-serif transition-all duration-300 relative group ${
                   shouldUseWhiteText
-                    ? 'text-white/90 hover:text-white'
-                    : 'text-muted-foreground hover:text-primary'
+                    ? "text-white/90 hover:text-white"
+                    : "text-muted-foreground hover:text-primary"
                 }`}
                 aria-label="Select language"
                 aria-expanded={isLangDropdownOpen}
               >
                 <span className="relative">
                   {languageButtonLabel}
-                  <span className={`absolute bottom-0 left-0 w-0 h-[1px] transition-all duration-300 group-hover:w-full ${
-                    shouldUseWhiteText ? 'bg-white' : 'bg-[#D4AF37]'
-                  }`}></span>
+                  <span
+                    className={`absolute bottom-0 left-0 w-0 h-[1px] transition-all duration-300 group-hover:w-full ${
+                      shouldUseWhiteText ? "bg-white" : "bg-[#D4AF37]"
+                    }`}
+                  />
                 </span>
               </button>
 
@@ -204,26 +219,27 @@ export default function Header() {
               <div
                 className={`absolute right-0 mt-2 w-40 rounded-md shadow-lg backdrop-blur-md transition-all duration-300 origin-top ${
                   isLangDropdownOpen
-                    ? 'opacity-100 scale-y-100 translate-y-0'
-                    : 'opacity-0 scale-y-0 -translate-y-2 pointer-events-none'
+                    ? "opacity-100 scale-y-100 translate-y-0"
+                    : "opacity-0 scale-y-0 -translate-y-2 pointer-events-none"
                 } ${
                   shouldUseWhiteText
-                    ? 'bg-black/40 border border-white/30'
-                    : 'bg-background/98 border border-border/50'
+                    ? "bg-black/40 border border-white/30"
+                    : "bg-background/98 border border-border/50"
                 }`}
               >
                 {languageOptions.map((option) => (
                   <button
+                    type="button"
                     key={option.value}
                     onClick={() => handleLanguageSelect(option.value)}
                     className={`w-full text-left px-4 py-3 text-sm font-serif transition-all duration-300 ${
                       language === option.value
                         ? shouldUseWhiteText
-                          ? 'bg-white/20 text-white'
-                          : 'bg-primary/10 text-primary'
+                          ? "bg-white/20 text-white"
+                          : "bg-primary/10 text-primary"
                         : shouldUseWhiteText
-                        ? 'text-white/90 hover:bg-white/10 hover:text-white'
-                        : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'
+                          ? "text-white/90 hover:bg-white/10 hover:text-white"
+                          : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
                     }`}
                   >
                     {option.label}
@@ -233,12 +249,14 @@ export default function Header() {
             </div>
 
             {/* Instagram Link */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              asChild 
+            <Button
+              variant="ghost"
+              size="icon"
+              asChild
               className={`transition-all duration-300 hover:bg-primary/5 hover:text-primary ${
-                shouldUseWhiteText ? 'text-white/90 hover:text-white hover:bg-white/10' : ''
+                shouldUseWhiteText
+                  ? "text-white/90 hover:text-white hover:bg-white/10"
+                  : ""
               }`}
             >
               <a
@@ -252,11 +270,13 @@ export default function Header() {
             </Button>
 
             {/* Mobile Menu Button */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               className={`lg:hidden transition-all duration-300 hover:bg-primary/5 ${
-                shouldUseWhiteText ? 'text-white/90 hover:text-white hover:bg-white/10' : ''
+                shouldUseWhiteText
+                  ? "text-white/90 hover:text-white hover:bg-white/10"
+                  : ""
               }`}
               onClick={() => setIsOpen(true)}
               aria-label="Menü öffnen"
@@ -274,8 +294,8 @@ export default function Header() {
         currentPath={currentPath}
         navItems={navItems}
         properties={properties}
-        domizileLabel={t('nav.domizile')}
-        homeLabel={t('nav.home')}
+        domizileLabel={t("nav.domizile")}
+        homeLabel={t("nav.home")}
       />
     </>
   );

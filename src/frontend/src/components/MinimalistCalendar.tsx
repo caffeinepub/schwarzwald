@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface MinimalistCalendarProps {
   onDateRangeSelect?: (startDate: Date | null, endDate: Date | null) => void;
@@ -9,11 +9,11 @@ interface MinimalistCalendarProps {
   className?: string;
 }
 
-export default function MinimalistCalendar({ 
-  onDateRangeSelect, 
+export default function MinimalistCalendar({
+  onDateRangeSelect,
   startDate,
   endDate,
-  className = '' 
+  className = "",
 }: MinimalistCalendarProps) {
   const now = new Date();
   const [currentMonth, setCurrentMonth] = useState(now.getMonth());
@@ -21,11 +21,21 @@ export default function MinimalistCalendar({
   const [selectingStart, setSelectingStart] = useState(true);
 
   const monthNames = [
-    'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-    'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember",
   ];
 
-  const dayLabels = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+  const dayLabels = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
   // Get days in month
   const getDaysInMonth = (month: number, year: number) => {
@@ -44,12 +54,12 @@ export default function MinimalistCalendar({
 
   // Create array of days with empty slots for alignment
   const calendarDays: (number | null)[] = [];
-  
+
   // Add empty slots for days before the first day of month
   for (let i = 1; i < firstDay; i++) {
     calendarDays.push(null);
   }
-  
+
   // Add actual days
   for (let day = 1; day <= daysInMonth; day++) {
     calendarDays.push(day);
@@ -75,7 +85,7 @@ export default function MinimalistCalendar({
 
   const handleDayClick = (day: number) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
-    
+
     if (selectingStart || !startDate) {
       // First click or reset - select start date
       if (onDateRangeSelect) {
@@ -124,16 +134,18 @@ export default function MinimalistCalendar({
 
   const getDayStyle = (day: number) => {
     if (isStartDate(day) || isEndDate(day)) {
-      return 'bg-black text-white hover:bg-black/90';
+      return "bg-black text-white hover:bg-black/90";
     }
     if (isInRange(day)) {
-      return 'bg-[#87A7C1] text-white hover:bg-[#87A7C1]/90';
+      return "bg-[#87A7C1] text-white hover:bg-[#87A7C1]/90";
     }
-    return 'hover:bg-gray-100 text-gray-900';
+    return "hover:bg-gray-100 text-gray-900";
   };
 
   return (
-    <div className={`bg-white rounded-2xl border border-black p-6 ${className}`}>
+    <div
+      className={`bg-white rounded-2xl border border-black p-6 ${className}`}
+    >
       {/* Header with navigation */}
       <div className="flex items-center justify-between mb-6">
         <Button
@@ -145,11 +157,11 @@ export default function MinimalistCalendar({
         >
           <ChevronLeft className="h-5 w-5" />
         </Button>
-        
+
         <h2 className="text-xl font-sans font-semibold tracking-tight">
           {monthNames[currentMonth]} {currentYear}
         </h2>
-        
+
         <Button
           variant="ghost"
           size="icon"
@@ -176,9 +188,13 @@ export default function MinimalistCalendar({
       {/* Calendar grid */}
       <div className="grid grid-cols-7 gap-2">
         {calendarDays.map((day, index) => (
-          <div key={index} className="aspect-square">
+          <div
+            key={day !== null ? `day-${day}` : `empty-${index}`}
+            className="aspect-square"
+          >
             {day ? (
               <button
+                type="button"
                 onClick={() => handleDayClick(day)}
                 className={`
                   w-full h-full flex items-center justify-center

@@ -1,6 +1,18 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useActor } from './useActor';
-import { Language, type BookingInquiry, type ContactMessage, type Review, type Domicile, type Residence, type RatingSummary } from '../backend';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { Language } from "../contexts/LanguageContext";
+
+// Stub types until backend bindings are generated
+type BookingInquiry = Record<string, unknown>;
+type ContactMessage = Record<string, unknown>;
+type Review = Record<string, unknown>;
+type Domicile = Record<string, unknown>;
+type Residence = Record<string, unknown>;
+type RatingSummary = Record<string, unknown>;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function useActor(): { actor: any; isFetching: boolean } {
+  return { actor: null, isFetching: false };
+}
 
 export function useSubmitBookingInquiry() {
   const { actor } = useActor();
@@ -18,7 +30,7 @@ export function useSubmitBookingInquiry() {
       guests: bigint;
       language: Language;
     }) => {
-      if (!actor) throw new Error('Actor not initialized');
+      if (!actor) throw new Error("Actor not initialized");
       return actor.submitBookingInquiry(
         data.name,
         data.email,
@@ -28,11 +40,11 @@ export function useSubmitBookingInquiry() {
         data.checkOut,
         data.roomType,
         data.guests,
-        data.language
+        data.language,
       );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['bookingInquiries'] });
+      queryClient.invalidateQueries({ queryKey: ["bookingInquiries"] });
     },
   });
 }
@@ -49,17 +61,17 @@ export function useSubmitContactMessage() {
       message: string;
       language: Language;
     }) => {
-      if (!actor) throw new Error('Actor not initialized');
+      if (!actor) throw new Error("Actor not initialized");
       return actor.submitContactMessage(
         data.name,
         data.email,
         data.subject,
         data.message,
-        data.language
+        data.language,
       );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['contactMessages'] });
+      queryClient.invalidateQueries({ queryKey: ["contactMessages"] });
     },
   });
 }
@@ -68,7 +80,7 @@ export function useGetAllBookingInquiries() {
   const { actor, isFetching } = useActor();
 
   return useQuery<BookingInquiry[]>({
-    queryKey: ['bookingInquiries'],
+    queryKey: ["bookingInquiries"],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getAllBookingInquiries();
@@ -81,7 +93,7 @@ export function useGetAllContactMessages() {
   const { actor, isFetching } = useActor();
 
   return useQuery<ContactMessage[]>({
-    queryKey: ['contactMessages'],
+    queryKey: ["contactMessages"],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getAllContactMessages();
@@ -94,7 +106,7 @@ export function useGetAllReviews() {
   const { actor, isFetching } = useActor();
 
   return useQuery<Review[]>({
-    queryKey: ['reviews'],
+    queryKey: ["reviews"],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getAllReviews();
@@ -107,7 +119,7 @@ export function useGetAllDomiciles() {
   const { actor, isFetching } = useActor();
 
   return useQuery<Domicile[]>({
-    queryKey: ['domiciles'],
+    queryKey: ["domiciles"],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getAllDomiciles();
@@ -120,7 +132,7 @@ export function useGetAllResidences() {
   const { actor, isFetching } = useActor();
 
   return useQuery<Residence[]>({
-    queryKey: ['residences'],
+    queryKey: ["residences"],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getAllResidences();
@@ -133,7 +145,7 @@ export function useIsCallerAdmin() {
   const { actor, isFetching } = useActor();
 
   return useQuery<boolean>({
-    queryKey: ['isCallerAdmin'],
+    queryKey: ["isCallerAdmin"],
     queryFn: async () => {
       if (!actor) return false;
       return actor.isCallerAdmin();
@@ -146,9 +158,9 @@ export function useGetRatingSummaryByResidence(residenceId: string) {
   const { actor, isFetching } = useActor();
 
   return useQuery<RatingSummary>({
-    queryKey: ['ratingSummary', residenceId],
+    queryKey: ["ratingSummary", residenceId],
     queryFn: async () => {
-      if (!actor) throw new Error('Actor not initialized');
+      if (!actor) throw new Error("Actor not initialized");
       return actor.getRatingSummaryByResidence(residenceId);
     },
     enabled: !!actor && !isFetching,
@@ -160,7 +172,7 @@ export function useGenerateReviewToken() {
 
   return useMutation({
     mutationFn: async (data: { email: string; residenceId: string }) => {
-      if (!actor) throw new Error('Actor not initialized');
+      if (!actor) throw new Error("Actor not initialized");
       return actor.generateReviewToken(data.email, data.residenceId);
     },
   });
@@ -171,7 +183,7 @@ export function useValidateReviewToken() {
 
   return useMutation({
     mutationFn: async (data: { tokenId: string; residenceId: string }) => {
-      if (!actor) throw new Error('Actor not initialized');
+      if (!actor) throw new Error("Actor not initialized");
       return actor.validateReviewToken(data.tokenId, data.residenceId);
     },
   });
@@ -189,20 +201,22 @@ export function useAddReview() {
       language: Language;
       residenceId: string;
     }) => {
-      if (!actor) throw new Error('Actor not initialized');
+      if (!actor) throw new Error("Actor not initialized");
       return actor.addReview(
         data.author,
         data.content,
         data.rating,
         data.language,
-        data.residenceId
+        data.residenceId,
       );
     },
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['reviews'] });
-      queryClient.invalidateQueries({ queryKey: ['residences'] });
-      queryClient.invalidateQueries({ queryKey: ['domiciles'] });
-      queryClient.invalidateQueries({ queryKey: ['ratingSummary', variables.residenceId] });
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      queryClient.invalidateQueries({ queryKey: ["residences"] });
+      queryClient.invalidateQueries({ queryKey: ["domiciles"] });
+      queryClient.invalidateQueries({
+        queryKey: ["ratingSummary", variables.residenceId],
+      });
     },
   });
 }
@@ -220,21 +234,23 @@ export function useAddReviewWithToken() {
       language: Language;
       residenceId: string;
     }) => {
-      if (!actor) throw new Error('Actor not initialized');
+      if (!actor) throw new Error("Actor not initialized");
       return actor.addReviewWithToken(
         data.tokenId,
         data.author,
         data.content,
         data.rating,
         data.language,
-        data.residenceId
+        data.residenceId,
       );
     },
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['reviews'] });
-      queryClient.invalidateQueries({ queryKey: ['residences'] });
-      queryClient.invalidateQueries({ queryKey: ['domiciles'] });
-      queryClient.invalidateQueries({ queryKey: ['ratingSummary', variables.residenceId] });
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      queryClient.invalidateQueries({ queryKey: ["residences"] });
+      queryClient.invalidateQueries({ queryKey: ["domiciles"] });
+      queryClient.invalidateQueries({
+        queryKey: ["ratingSummary", variables.residenceId],
+      });
     },
   });
 }
@@ -245,14 +261,14 @@ export function useDeleteReview() {
 
   return useMutation({
     mutationFn: async (reviewId: string) => {
-      if (!actor) throw new Error('Actor not initialized');
+      if (!actor) throw new Error("Actor not initialized");
       return actor.deleteReview(reviewId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reviews'] });
-      queryClient.invalidateQueries({ queryKey: ['residences'] });
-      queryClient.invalidateQueries({ queryKey: ['domiciles'] });
-      queryClient.invalidateQueries({ queryKey: ['ratingSummary'] });
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      queryClient.invalidateQueries({ queryKey: ["residences"] });
+      queryClient.invalidateQueries({ queryKey: ["domiciles"] });
+      queryClient.invalidateQueries({ queryKey: ["ratingSummary"] });
     },
   });
 }

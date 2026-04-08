@@ -10,15 +10,6 @@ export type Option<T> = Some<T> | None;
 export interface UserProfile {
     name: string;
 }
-export interface Review {
-    id: string;
-    content: string;
-    author: string;
-    language: Language;
-    timestamp: bigint;
-    residenceId: string;
-    rating: bigint;
-}
 export interface Residence {
     id: string;
     reviews: Array<Review>;
@@ -106,6 +97,15 @@ export interface Domicile {
     description: string;
     rating: number;
     reviewCount: bigint;
+}
+export interface Review {
+    id: string;
+    content: string;
+    author: string;
+    language: Language;
+    timestamp: bigint;
+    residenceId: string;
+    rating: bigint;
 }
 export interface RatingSummary {
     averageRating: number;

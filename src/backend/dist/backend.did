@@ -1,0 +1,179 @@
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfile = record {name: text;};
+type ReviewToken = 
+ record {
+   email: text;
+   expiresAt: int;
+   id: text;
+   isValid: bool;
+   issuedAt: int;
+   residenceId: text;
+ };
+type Review = 
+ record {
+   author: text;
+   content: text;
+   id: text;
+   language: Language;
+   rating: nat;
+   residenceId: text;
+   timestamp: int;
+ };
+type Residence = 
+ record {
+   description: text;
+   id: text;
+   name: text;
+   reviewTokens: vec ReviewToken;
+   reviews: vec Review;
+ };
+type RatingSummary = 
+ record {
+   averageRating: float64;
+   totalReviews: nat;
+ };
+type Property = 
+ record {
+   amenities: vec text;
+   capacity: nat;
+   description: text;
+   id: text;
+   images: vec text;
+   language: Language;
+   lastUpdated: int;
+   location: text;
+   minStay: nat;
+   name: text;
+   subtitle: text;
+ };
+type PageContent = 
+ record {
+   body: text;
+   language: Language;
+   lastUpdated: int;
+   title: text;
+ };
+type Language = 
+ variant {
+   de;
+   en;
+ };
+type HouseInfo = 
+ record {
+   description: text;
+   id: text;
+   name: text;
+ };
+type Domicile = 
+ record {
+   description: text;
+   id: text;
+   name: text;
+   rating: float64;
+   reviewCount: nat;
+   thumbnail: opt text;
+ };
+type DateRange = 
+ record {
+   endDate: opt text;
+   startDate: opt text;
+ };
+type ContactMessage = 
+ record {
+   email: text;
+   id: text;
+   language: Language;
+   message: text;
+   name: text;
+   subject: text;
+   timestamp: int;
+ };
+type CalendarState = 
+ record {
+   currentMonth: CalendarMonth;
+   selectedRange: DateRange;
+ };
+type CalendarMonth = 
+ record {
+   days: vec CalendarDay;
+   month: int;
+   year: int;
+ };
+type CalendarDay = 
+ record {
+   date: text;
+   isAvailable: bool;
+   isInRange: bool;
+   isSelected: bool;
+ };
+type BookingInquiry = 
+ record {
+   checkIn: text;
+   checkOut: text;
+   email: text;
+   guests: nat;
+   id: text;
+   language: Language;
+   message: text;
+   name: text;
+   phone: opt text;
+   roomType: text;
+   timestamp: int;
+ };
+service : {
+  addOrUpdateDomicile: (id: text, name: text, thumbnail: opt text,
+   description: text, rating: float64, reviewCount: nat) -> (text);
+  addOrUpdatePageContent: (title: text, body: text, language: Language) ->
+   (text);
+  addOrUpdateProperty: (id: text, name: text, subtitle: text, description:
+   text, amenities: vec text, capacity: nat, minStay: nat, location: 
+   text, images: vec text, language: Language) -> (text);
+  addOrUpdateResidence: (id: text, name: text, description: text) -> (text);
+  addReview: (author: text, content: text, rating: nat, language: Language,
+   residenceId: text) -> (text);
+  addReviewWithToken: (tokenId: text, author: text, content: text, rating:
+   nat, language: Language, residenceId: text) -> (text);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  clearResidenceCalendar: (residenceId: text) -> ();
+  deleteReview: (reviewId: text) -> ();
+  generateReviewToken: (email: text, residenceId: text) -> (text);
+  getAllBookingInquiries: () -> (vec BookingInquiry) query;
+  getAllContactMessages: () -> (vec ContactMessage) query;
+  getAllDomiciles: () -> (vec Domicile) query;
+  getAllProperties: () -> (vec Property) query;
+  getAllResidences: () -> (vec Residence) query;
+  getAllReviews: () -> (vec Review) query;
+  getCallerUserProfile: () -> (opt UserProfile) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getDomicile: (id: text) -> (opt Domicile) query;
+  getHousesInfo: () -> (vec HouseInfo) query;
+  getPageContent: (title: text, language: Language) ->
+   (opt PageContent) query;
+  getProperty: (id: text) -> (opt Property) query;
+  getRatingSummaryByResidence: (residenceId: text) -> (RatingSummary) query;
+  getResidence: (id: text) -> (opt Residence) query;
+  getResidenceCalendar: (residenceId: text) -> (opt CalendarState) query;
+  getReviewsByResidence: (residenceId: text) -> (vec Review) query;
+  getUserProfile: (user: principal) -> (opt UserProfile) query;
+  initializeAccessControl: () -> ();
+  initializeDefaultCalendars: () -> ();
+  initializeDefaultDomiciles: () -> ();
+  initializeDefaultResidences: () -> ();
+  invalidateReviewToken: (tokenId: text) -> ();
+  isCallerAdmin: () -> (bool) query;
+  isValidReviewToken: (tokenId: text, residenceId: text) -> (bool) query;
+  saveCallerUserProfile: (profile: UserProfile) -> ();
+  submitBookingInquiry: (name: text, email: text, phone: opt text, message:
+   text, checkIn: text, checkOut: text, roomType: text, guests: nat,
+   language: Language) -> (text);
+  submitContactMessage: (name: text, email: text, subject: text, message:
+   text, language: Language) -> (text);
+  updateResidenceCalendar: (residenceId: text, year: int, month: int, days:
+   vec CalendarDay, selectedRange: DateRange) -> ();
+  validateReviewToken: (tokenId: text, residenceId: text) -> (bool) query;
+}

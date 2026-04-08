@@ -1,13 +1,19 @@
-import { RouterProvider, createRouter, createRoute, createRootRoute, Outlet } from '@tanstack/react-router';
-import { ThemeProvider } from 'next-themes';
-import { Toaster } from '@/components/ui/sonner';
-import { LanguageProvider } from './contexts/LanguageContext';
-import Layout from './components/Layout';
-import ScrollToTop from './components/ScrollToTop';
-import HomePage from './pages/HomePage';
-import PropertyPage from './pages/PropertyPage';
-import ReviewsPage from './pages/ReviewsPage';
-import CalendarPage from './pages/CalendarPage';
+import { Toaster } from "@/components/ui/sonner";
+import {
+  Outlet,
+  RouterProvider,
+  createRootRoute,
+  createRoute,
+  createRouter,
+} from "@tanstack/react-router";
+import { ThemeProvider } from "next-themes";
+import Layout from "./components/Layout";
+import ScrollToTop from "./components/ScrollToTop";
+import { LanguageProvider } from "./contexts/LanguageContext";
+import CalendarPage from "./pages/CalendarPage";
+import HomePage from "./pages/HomePage";
+import PropertyPage from "./pages/PropertyPage";
+import ReviewsPage from "./pages/ReviewsPage";
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -20,43 +26,43 @@ const rootRoute = createRootRoute({
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/',
+  path: "/",
   component: HomePage,
 });
 
 const waldhausRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/domizile/waldhaus-tannenhof',
+  path: "/domizile/waldhaus-tannenhof",
   component: () => <PropertyPage propertyId="waldhaus" />,
 });
 
 const forsthausRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/domizile/forsthaus-hirschgrund',
+  path: "/domizile/forsthaus-hirschgrund",
   component: () => <PropertyPage propertyId="forsthaus" />,
 });
 
 const fichtenbergRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/domizile/fichtenberg',
+  path: "/domizile/fichtenberg",
   component: () => <PropertyPage propertyId="fichtenberg" />,
 });
 
 const schwarzwaldblickRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/domizile/schwarzwaldblick',
+  path: "/domizile/schwarzwaldblick",
   component: () => <PropertyPage propertyId="schwarzwaldblick" />,
 });
 
 const reviewsRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/bewertungen',
+  path: "/bewertungen",
   component: ReviewsPage,
 });
 
 const calendarRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/verfuegbarkeit',
+  path: "/verfuegbarkeit",
   component: CalendarPage,
 });
 
@@ -72,7 +78,7 @@ const routeTree = rootRoute.addChildren([
 
 const router = createRouter({ routeTree });
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }
@@ -80,7 +86,12 @@ declare module '@tanstack/react-router' {
 
 export default function App() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false}>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="light"
+      forcedTheme="light"
+      enableSystem={false}
+    >
       <LanguageProvider>
         <RouterProvider router={router} />
         <Toaster position="top-center" />
